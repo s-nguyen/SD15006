@@ -123,7 +123,8 @@ void FlirCamera::run() {
 		// Do something with data
 		
 #if !HAVE_LEPTON
-		usleep(50000); //need to slow things down if no ioctl call!
+		//need to slow things down if no ioctl call!
+		usleep(50000); 
 		counter = (counter + 1)%520;
 #endif
 	}

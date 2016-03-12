@@ -6,8 +6,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
-#include <fnctl.h>
+#include <fcntl.h>
 #include <vector>
+#include <iostream>
 
 #if HAVE_LEPTON
 #include <sys/ioctl.h>
@@ -51,6 +52,6 @@ public:
 	void run();
 	
 		
-}
+};
 
 #endif
