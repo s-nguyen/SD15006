@@ -3,12 +3,21 @@
 #include <string>
 
 #if HAVE_LEPTON
-const char *FlirCamera::device = "/dev/spidev1.0"; //Change if it does not work
+//Change if it does not work
+const char *FlirCamera::device = "/dev/spidev1.0"; 
 unsigned char FlirCamera::mode = 3;
 unsigned char FlirCamera::bits = 8;
 unsigned int FlirCamera::speed = 10000000;
 unsigned short FlirCamera::delay = 0;
 vector<unsigned char > FlirCamera::tx(FlirCamera::RowPacketBytes, 0);
+
+FlirCamera::FlirCamera() {
+	
+}
+
+FlirCamera::~FlirCamera() {
+	
+}
 
 bool FlirCamera::initCamera() {
 	fd = open(device, O_RDWR);
@@ -39,6 +48,8 @@ int FlirCamera::getPacket(int iRow, unsigned char *packetData) {
 #if HAVE_LEPTON
 	_tr.rx_buf = (unsigned long) packetData;
 	return ioctl(fd, SPI_IOC_MESSAGE(1), &_tr);
+	cout << "It shouldn't be here" << endl;
+	(void)iRow;
 #else
 	packetData[0] = 0;
 	packetData[1] = iRow;
@@ -69,7 +80,7 @@ void FlirCamera::run() {
 			unsigned char *packet = &result[iRow*RowPacketBytes];
 			
 			if (getPacket(iRow, packet) < 1) {
-				cout << "Error transferring SPI packet";
+				cout << "Error transferring SPI packet" << endl;
 				return;
 			}
 			
@@ -121,6 +132,10 @@ void FlirCamera::run() {
 			}
 		}
 		// Do something with data
+		//Test print function
+		for(unsigned int i = 0; i < rawData.size(); i++) {
+			cout << rawData[i] << ' ';
+		}
 		
 #if !HAVE_LEPTON
 		//need to slow things down if no ioctl call!

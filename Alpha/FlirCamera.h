@@ -1,6 +1,8 @@
 #ifndef FLIRCAMERA
 #define FLIRCAMERA
 
+#define HAVE_LEPTON true
+
 #include <stdint.h>
 #include <unistd.h>
 #include <stdio.h>
