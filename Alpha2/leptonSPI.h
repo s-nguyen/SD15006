@@ -30,6 +30,7 @@ class leptonSPI {
 public:
 	unsigned int lepton_image[80][80];
 	uint8_t lepton_frame_packet[PACKET_SIZE];
+    uint8_t frame[9600];
 
 
 	int fd;

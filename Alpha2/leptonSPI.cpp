@@ -94,9 +94,13 @@ int leptonSPI::getFrame() {
 			for (i = 0; i<80; i++)
 			{
 				lepton_image[frame_number][i] = (lepton_frame_packet[2 * i + 4] << 8 | lepton_frame_packet[2 * i + 5]);
+
 			}
 
 		}
+        for(i = 0; i < 160; i++){
+            frame[frame_number*80+i] = lepton_frame_packet[i];
+        }
 	}
 
 	return frame_number;
