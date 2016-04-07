@@ -58,9 +58,9 @@ int CUARTSocket::Open() {
    sPortSettings.c_lflag = 0;
          
    sPortSettings.c_cc[VTIME] = 0;   /* inter-character timer unused */
-   sPortSettings.c_cc[VMIN] = 0;   /* blocking read until 5 chars received */
+   sPortSettings.c_cc[VMIN] = 9600;   /* blocking read until 5 chars received */
         
-   tcflush(m_nPort, TCIOFLUSH);
+   tcflush(m_nPort, TCIFLUSH);
    tcsetattr(m_nPort, TCSANOW, &sPortSettings);
 
    return 0;
