@@ -43,6 +43,7 @@ public:
    int16_t Write(const uint8_t* p_buffer, size_t un_length) const;
 
    void Flush();
+   int Wait();
 
 };
 

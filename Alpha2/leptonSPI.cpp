@@ -1,4 +1,6 @@
 #include "leptonSPI.h"
+#include <iostream>
+
 
 const char *leptonSPI::device = "/dev/spidev1.0";
 uint8_t leptonSPI::mode;
@@ -69,6 +71,9 @@ int leptonSPI::getFrame() {
 	int frame_number;
 	uint8_t tx[PACKET_SIZE] = { 0, };
 
+    open(device, O_RDWR);
+
+
 	//Sets up where to write
 	
 	tr.tx_buf = (unsigned long)tx,
@@ -88,8 +93,8 @@ int leptonSPI::getFrame() {
 	if (((lepton_frame_packet[0] & 0xf) != 0x0f))
 	{
 		frame_number = lepton_frame_packet[1];
-
-		if (frame_number < 60)
+       // std::cout << frame_number << std::endl;
+        /*if (frame_number < 60)
 		{
 			for (i = 0; i<80; i++)
 			{
@@ -97,9 +102,9 @@ int leptonSPI::getFrame() {
 
 			}
 
-		}
-        for(i = 0; i < 160; i++){
-            frame[frame_number*80+i] = lepton_frame_packet[i];
+        }*/
+        for(i = 0; i < 164; i++){
+            frame[frame_number*164+i] = lepton_frame_packet[i];
         }
 	}
 
@@ -107,7 +112,7 @@ int leptonSPI::getFrame() {
 }
 
 leptonSPI::leptonSPI() {
-	initCamera();
+    initCamera();
 	//Make PGM file
 }
 

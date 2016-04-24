@@ -6,17 +6,19 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
     leptonSPI c;
+    system("modprobe g_serial");
     CUARTSocket a("/dev/ttyGS0", 115200);
     while (c.getFrame() != 59) {}
-    for(int i = 0; i < 10; i++){
-        cout << c.frame[i] << endl;
-    }
+
     a.Open();
 
-    cout << a.Write(c.frame, 9600);
+    a.Write(c.frame, 9840);
 
-    getchar();
 
+
+   a.Wait();
+
+    a.Close();
 
     return 0;
 }

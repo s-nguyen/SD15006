@@ -12,7 +12,7 @@
 
 
 int CUARTSocket::Open() {
-   m_nPort = ::open(m_strDevice.c_str(), O_RDWR | O_NOCTTY | O_SYNC);
+   m_nPort = ::open(m_strDevice.c_str(), O_RDWR | O_NOCTTY | O_NDELAY);
    if (m_nPort < 0) {
       std::cout << "can't open device" << std::endl;
       return errno;
@@ -49,7 +49,7 @@ int CUARTSocket::Open() {
    default:
       return -1;
    }
-
+        eBaud = B3000000;
    sPortSettings.c_cflag = eBaud | CS8 | CLOCAL | CREAD;
    sPortSettings.c_iflag = IGNPAR;
    sPortSettings.c_oflag = 0;
@@ -58,9 +58,9 @@ int CUARTSocket::Open() {
    sPortSettings.c_lflag = 0;
          
    sPortSettings.c_cc[VTIME] = 0;   /* inter-character timer unused */
-   sPortSettings.c_cc[VMIN] = 9600;   /* blocking read until 5 chars received */
+   sPortSettings.c_cc[VMIN] = 0;   /* blocking read until 5 chars received */
         
-   tcflush(m_nPort, TCIFLUSH);
+   tcflush(m_nPort, TCIOFLUSH);
    tcsetattr(m_nPort, TCSANOW, &sPortSettings);
 
    return 0;
@@ -68,6 +68,10 @@ int CUARTSocket::Open() {
 
 void CUARTSocket::Flush() {
     tcflush(m_nPort, TCIOFLUSH);
+}
+
+int CUARTSocket::Wait() {
+   return tcdrain(m_nPort);
 }
 
 /***********************************************************/
